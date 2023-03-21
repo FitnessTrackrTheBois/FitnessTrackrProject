@@ -1,8 +1,25 @@
 /* eslint-disable no-useless-catch */
 const express = require("express");
-const router = express.Router();
+const usersRouter = express.Router();
+
+const { 
+    createUser
+} = require('../db');
+
+// health check
+usersRouter.use((req, res, next) => {
+    console.log("A request is being made to /users");
+    next();
+});
 
 // POST /api/users/register
+usersRouter.post('/register', async (req, res) => {
+    const usersReg = await createUser();
+
+    res.send({
+        usersReg
+    });
+});
 
 // POST /api/users/login
 
@@ -10,4 +27,4 @@ const router = express.Router();
 
 // GET /api/users/:username/routines
 
-module.exports = router;
+module.exports = usersRouter;
