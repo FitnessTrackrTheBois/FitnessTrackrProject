@@ -2,7 +2,6 @@
 const client = require("./client");
 
 async function addActivityToRoutine({routineId, activityId, count, duration}){
-  // eslint-disable-next-line no-useless-catch
   try {
       console.log("starting addActivityToRoutine");
     const { rows: [ routine_activity ] } = await client.query(`
@@ -17,6 +16,7 @@ async function addActivityToRoutine({routineId, activityId, count, duration}){
     return routine_activity;
 
   } catch (error) {
+    console.log(error);
     throw error;
   }
 }

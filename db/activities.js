@@ -3,7 +3,6 @@ const client = require("./client");
 
 // database functions
 async function createActivity({ name, description }) {
-  // eslint-disable-next-line no-useless-catch
   try {
         console.log("starting createActivity");
     const { rows: [ activity ] } = await client.query(`
@@ -18,12 +17,12 @@ async function createActivity({ name, description }) {
     return activity;
 
   } catch (error) {
+    console.log(error);
     throw error;
   }
 }
 
 async function getAllActivities() {
-  // eslint-disable-next-line no-useless-catch
   try{
     const { rows } = await client.query(`
     SELECT id, name, description
@@ -33,6 +32,7 @@ async function getAllActivities() {
     return rows;
 
   } catch (error) {
+      console.log(error);
       throw error;
   }
 }

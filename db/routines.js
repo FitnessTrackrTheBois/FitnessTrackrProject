@@ -2,7 +2,6 @@
 const client = require("./client");
 
 async function createRoutine({ creatorId, isPublic, name, goal }) {
-  // eslint-disable-next-line no-useless-catch
   try {
       console.log("starting createRoutine");
     const { rows: [ routine ] } = await client.query(`
@@ -15,6 +14,7 @@ async function createRoutine({ creatorId, isPublic, name, goal }) {
     return routine;
 
   } catch (error) {
+    console.log(error);
     throw error;
   }
 }
@@ -22,16 +22,16 @@ async function createRoutine({ creatorId, isPublic, name, goal }) {
 async function getRoutineById(id) {}
 
 async function getRoutinesWithoutActivities() {
-  // eslint-disable-next-line no-useless-catch
   try{
     const { rows } = await client.query(`
-    SELECT "creatorId", "isPublic", name, goal
+    SELECT id, "creatorId", "isPublic", name, goal
     FROM routines;
     `);
 
     return rows;
 
   } catch (error) {
+      console.log(error);
       throw error;
   }
 }
