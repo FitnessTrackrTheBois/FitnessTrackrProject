@@ -1,8 +1,13 @@
+/* eslint-disable no-unused-vars */
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = process.env;
 
 // GET /api/health
 router.get('/health', async (req, res, next) => {
+    console.log("Request Received")
+    next();
 });
 
 // ROUTER: /api/users
@@ -20,5 +25,12 @@ router.use('/routines', routinesRouter);
 // ROUTER: /api/routine_activities
 const routineActivitiesRouter = require('./routineActivities');
 router.use('/routine_activities', routineActivitiesRouter);
+
+router.use((error, req, res, next) => {
+    res.send({
+        name: error.name,
+        message: error.message
+    });
+});
 
 module.exports = router;
