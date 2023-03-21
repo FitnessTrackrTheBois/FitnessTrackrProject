@@ -25,7 +25,7 @@ async function createUser({ username, password }) {
 }
 
 async function getUser({ username, password }) {
-
+  console.log("Calling get user");
 }
 
 async function getUserById(userId) {
