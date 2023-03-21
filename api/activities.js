@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const express = require('express');
 const activitiesRouter = express.Router();
 
@@ -24,12 +25,20 @@ activitiesRouter.get('/', async (req, res) => {
 });
 
 // POST /api/activities
-activitiesRouter.post('/', async (req, res) => {
-    const activitiesCreate = await createActivity();
+activitiesRouter.post('/', async (req, res, next) => {
+    const { name, description } = req.body;
+    try{
+        const activitiesCreate = await createActivity({
+            name,
+            description
+        });
 
-    res.send({
-        activitiesCreate
-    });
+        res.send({
+            message: "Activity Successfully Created",
+        });
+    } catch ({ name, message }) {
+        next({ name, message })
+    } 
 });
 
 // PATCH /api/activities/:activityId
