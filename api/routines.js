@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const express = require('express');
 const routinesRouter = express.Router();
 
@@ -22,12 +23,20 @@ routinesRouter.get('/', async (req, res) => {
 });
 
 // POST /api/routines
-routinesRouter.post('/', async (req, res) => {
-    const routinesCreate = await createRoutine();
+routinesRouter.post('/', async (req, res, next) => {
+    const { name, goal } = req.body;
+    try{
+        const routinesCreate = await createRoutine({
+            name,
+            goal
+        });
 
-    res.send({
-        routinesCreate
-    });
+        res.send({
+            message: "Routine Successfully Created",
+        });
+    } catch ({ name, message }) {
+        next({ name, message })
+    } 
 });
 
 // PATCH /api/routines/:routineId

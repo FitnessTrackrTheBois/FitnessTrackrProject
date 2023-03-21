@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-catch */
 const express = require("express");
 const usersRouter = express.Router();
@@ -16,14 +17,14 @@ usersRouter.use((req, res, next) => {
 usersRouter.post('/register', async (req, res, next) => {
     const { username, password } = req.body;
     try{
-    const userReg = await createUser({
-        username,
-        password
-    });
+        const userReg = await createUser({
+            username,
+            password
+        });
 
-    res.send({
-        message: "thank you for signing up",
-    });
+        res.send({
+            message: "thank you for signing up",
+        });
     } catch ({ name, message }) {
         next({ name, message })
     } 
