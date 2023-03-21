@@ -1,11 +1,25 @@
+/* eslint-disable no-unused-vars */
 const client = require("./client");
 
-async function addActivityToRoutine({
-  routineId,
-  activityId,
-  count,
-  duration,
-}) {}
+async function addActivityToRoutine({routineId, activityId, count, duration}){
+  // eslint-disable-next-line no-useless-catch
+  try {
+      console.log("starting addActivityToRoutine");
+    const { rows: [ routine_activity ] } = await client.query(`
+        INSERT INTO "routineActivities"("routineId", "activityId", count, duration)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *;
+        
+    `, [routineId, activityId, count, duration]);
+
+      console.log("finished addActivityToRoutine");
+
+    return routine_activity;
+
+  } catch (error) {
+    throw error;
+  }
+}
 
 async function getRoutineActivityById(id) {}
 
