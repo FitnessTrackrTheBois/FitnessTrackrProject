@@ -7,7 +7,8 @@ const jwt = require('jsonwebtoken');
 const { token } = require('morgan');
 
 const { 
-    createUser
+    createUser,
+    getUserByUsername
 } = require('../db');
 
 // health check
