@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
-// Josue is working here
+
 const express = require('express');
 const routinesRouter = express.Router();
 
 const { 
     createRoutine,
-    getRoutinesWithoutActivities
+    getRoutinesWithoutActivities,
+    getRoutineById
 } = require('../db');
 
 // health check
@@ -41,6 +42,21 @@ routinesRouter.post('/', async (req, res, next) => {
 });
 
 // PATCH /api/routines/:routineId
+routinesRouter.patch('/:routineId', async (req, res, next) => {
+    const { name, goal } = req.body;
+    try{
+        const routinesCreate = await createRoutine({
+            name,
+            goal
+        });
+
+        res.send({
+            message: "Routine Successfully Created",
+        });
+    } catch ({ name, message }) {
+        next({ name, message })
+    } 
+});
 
 // DELETE /api/routines/:routineId
 
