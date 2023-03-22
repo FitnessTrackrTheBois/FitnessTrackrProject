@@ -22,20 +22,15 @@ async function createRoutine({ creatorId, isPublic, name, goal }) {
 
 async function getRoutineById(id) {
   try {
+      console.log("Starting getRoutineById");
     const { rows: [ routine ]  } = await client.query(`
-        SELECT *
-        FROM routines
-        WHERE id=$1;
+        SELECT * FROM routines
+        WHERE id = $1;
     `, [id]);
+      console.log("finished getRoutineById");
 
-    if(!routine){
-        throw{
-            name: "Routine Not Found Error",
-            message: "Could not find a routine with that ID"
-        };
-    }
 
-    return routine;
+      return routine;
 
   } catch (error) {
       console.log(error);
@@ -100,16 +95,35 @@ async function updateRoutine({ id, fields = {} }) {
               RETURNING *;
           `, Object.values(fields));
       }
-          console.log("finished updateRoutine");
-      return await getPostById(postId);
-
+        console.log("finished updateRoutine");
+      return await getRoutineById(id);
 
   } catch (error) {
+      console.log(error);
       throw error;
   }
 }
 
-async function destroyRoutine(id) {}
+async function destroyRoutine(id) {
+  console.log("Starting destroyRoutineID");
+  try{
+      const deleteRoutine = getRoutineById(id)
+
+      await client.query(`
+          DELETE FROM routines
+          WHERE id = $1;
+      `, [id])
+
+      console.log("Finishing destroyRoutineID");
+
+      return deleteRoutine;
+
+  } catch(error){
+      console.error(error);
+      throw error;
+  }
+}
+
 
 module.exports = {
   getRoutineById,

@@ -6,7 +6,9 @@ const routinesRouter = express.Router();
 const { 
     createRoutine,
     getRoutinesWithoutActivities,
-    getRoutineById
+    getRoutineById,
+    updateRoutine,
+    destroyRoutine
 } = require('../db');
 
 // health check
@@ -26,9 +28,10 @@ routinesRouter.get('/', async (req, res) => {
 
 // POST /api/routines
 routinesRouter.post('/', async (req, res, next) => {
-    const { name, goal } = req.body;
+    const { isPublic, name, goal } = req.body;
     try{
         const routinesCreate = await createRoutine({
+            isPublic,
             name,
             goal
         });
@@ -43,22 +46,53 @@ routinesRouter.post('/', async (req, res, next) => {
 
 // PATCH /api/routines/:routineId
 routinesRouter.patch('/:routineId', async (req, res, next) => {
-    const { name, goal } = req.body;
-    try{
-        const routinesCreate = await createRoutine({
-            name,
-            goal
-        });
+    const { id } = req.params;
+    const { isPublic, name, goal  } = req.body;
 
-        res.send({
-            message: "Routine Successfully Created",
-        });
+    const updateFields = {};
+
+    if (isPublic) {
+        updateFields.isPublic = isPublic;
+    }
+
+    if (name) {
+        updateFields.name = name;
+    }
+
+    if (goal) {
+        updateFields.goal = goal;
+    }
+
+    try {
+        const originalRoutine = await getRoutineById(id);
+        
+        if (originalRoutine.creatorId.id === req.user.id) {
+        
+            const updatedRoutine = await updatedRoutine(id, updateFields);
+        
+            res.send({ routine: updatedRoutine })
+        
+        } else {
+            next({
+                name: 'UnauthorizedUserError',
+                message: 'You cannot update a routine that is not yours'
+            })
+        }
     } catch ({ name, message }) {
-        next({ name, message })
-    } 
+        next({ name, message });
+    }
 });
 
 // DELETE /api/routines/:routineId
+routinesRouter.delete('/:routineId', async (req, res, next) => {
+    try{
+        const deleteRoutineData = await destroyRoutine(req.params.id);
+        res.send(deleteRoutineData)
+
+    } catch(error){
+        console.log(error)
+    }
+});
 
 // POST /api/routines/:routineId/activities
 
