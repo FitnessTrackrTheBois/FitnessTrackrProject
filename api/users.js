@@ -6,14 +6,51 @@ const usersRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const { token } = require('morgan');
 
+const { getUserById } = require('../db');
+
 const { 
     createUser,
     getUserByUsername
 } = require('../db');
 
+// set 'req.user' if possible
+usersRouter.use(async (req, res, next) => {
+    console.log("Beginning token verification")
+    const prefix = 'Bearer ';
+    const auth = req.header('Authorization');
+
+    if (!auth) { // nothing to see here
+        console.log("!!!! !auth !!!!")
+        next();
+    } else if (auth.startsWith(prefix)) {
+        console.log("Generating token")
+        const token = auth.slice(prefix.length);
+
+        try {
+            console.log("Verifying token")
+            const { id } = jwt.verify(token, process.env.JWT_SECRET);
+
+            if (id) {
+                console.log("id: " + id)
+                req.user = await getUserById(id);
+                console.log("req.user: " + req.user);
+                next();
+            }
+        } catch ({ name, message }) {
+            next({ name, message });
+        }
+    } else {
+        next({
+            name: 'AuthorizationHeaderError',
+            message: `Authorization token must start with ${ prefix }`
+        });
+    }
+});
 // health check
 usersRouter.use((req, res, next) => {
-    console.log("A request is being made to /users");
+    if (req.user) {
+        console.log("User is set:", req.user);
+    }
     next();
 });
 
