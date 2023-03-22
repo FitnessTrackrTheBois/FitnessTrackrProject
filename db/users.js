@@ -7,6 +7,7 @@ const client = require("./client");
 async function createUser({ username, password }) {
   try {
       console.log("starting createUser");
+
     const { rows: [ user ] } = await client.query(`
         INSERT INTO users(username, password)
         VALUES ($1, $2)
@@ -24,8 +25,15 @@ async function createUser({ username, password }) {
   }
 }
 
+
+// Not sure how to get this to 
+// "verify the password against the hashed password"
 async function getUser({ username, password }) {
-  console.log("Calling get user");
+  //const user = await getUserByUserName(username);
+  console.log("You recently called getUserByUserName");
+  //console.log("Here's what was returned: " + user);
+
+  //const hashedPassword = user.password;
 }
 
 async function getUserById(userId) {
@@ -33,7 +41,26 @@ async function getUserById(userId) {
 }
 
 async function getUserByUsername(userName) {
+  try {
+    console.log("Getting a user by their username")
+    const { rows: [ user ] } = await client.query(`
+        SELECT id, username, password
+        FROM users
+        WHERE username=${ userName }
+    `);
 
+    if (!user) {
+        return null
+    }
+
+    // user.posts = await getPostsByUser(userId);
+
+    console.log("Finished getting a user by their username");
+    return user;
+
+    } catch (error) {
+        throw error;
+    }
 }
 
 module.exports = {
