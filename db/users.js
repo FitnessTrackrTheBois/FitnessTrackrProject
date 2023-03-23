@@ -1,6 +1,7 @@
 
 /* eslint-disable no-unused-vars */
 const client = require("./client");
+const bcrypt = require("bcrypt")
 
 // database functions
 
@@ -8,14 +9,15 @@ const client = require("./client");
 async function createUser({ username, password }) {
   try {
       console.log("starting createUser");
-
+      const saltCount=await bcrypt.genSalt(8)
+      const hashPassword = await bcrypt.hash(password, saltCount);
     const { rows: [ user ] } = await client.query(`
         INSERT INTO users(username, password)
         VALUES ($1, $2)
         ON CONFLICT (username) DO NOTHING 
         RETURNING *;
         
-    `, [username, password]);
+    `, [username, hashPassword]);
 
       console.log("finished createUser");
     return user;
@@ -30,8 +32,25 @@ async function createUser({ username, password }) {
 // Not sure how to get this to 
 // "verify the password against the hashed password"
 async function getUser({ username, password }) {
-  const user = getUserByUsername(username);
-
+  try{
+    const {rows} = await client.query(`
+    SELECT id, username, password
+    FROM users
+    WHERE username =$1;`,[username]);
+    if (!user){
+      return null
+    }
+    const user=rows[0];
+    const hashedPassword=user.password
+    const validity=await bcrypt.compare (password, hashedPassword);
+    if(!validity){
+      throw error;
+    }
+    return user
+  }catch(error){
+    throw error;
+  }
+  
   // if (!user) {
   //   return null;
   // }
