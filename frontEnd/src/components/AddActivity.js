@@ -43,5 +43,13 @@ const ProductForm=()=>{
             alert("An unexpected error has occured")
         }
     }
+    return(
+        <div>
+            <form onSubmit={createNewPost}>
+                <input type="text" placeholder="RoutineName"value={Name}onChange={(event)=>setName(event.target.value)}/>
+                <input type="text" placeholder="Description"value={Description}onChange={(event)=>setDescription(event.target.value)}/>
+            </form>
+        </div>
+    )
 }
-//INCOMPLETE
+//COMPLETE
