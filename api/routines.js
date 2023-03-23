@@ -3,6 +3,8 @@
 const express = require('express');
 const routinesRouter = express.Router();
 
+const { requireUser } = require('./utils');
+
 const { 
     createRoutine,
     getRoutinesWithoutActivities,
@@ -10,12 +12,6 @@ const {
     updateRoutine,
     destroyRoutine
 } = require('../db');
-
-// health check
-routinesRouter.use((req, res, next) => {
-    console.log("A request is being made to /routines");
-    next();
-});
 
 // GET /api/routines
 routinesRouter.get('/', async (req, res) => {
@@ -29,8 +25,18 @@ routinesRouter.get('/', async (req, res) => {
 // POST /api/routines
 routinesRouter.post('/', async (req, res, next) => {
     const { isPublic, name, goal } = req.body;
+    const routineData = {};
+
+    // if(req.user){
+    //     routineData.creatorId = req.user.id;
+    // }
+
+// Testing Method
+    let creatorId = 1;
+// Testing Method    
     try{
         const routinesCreate = await createRoutine({
+            creatorId,
             isPublic,
             name,
             goal
@@ -46,7 +52,8 @@ routinesRouter.post('/', async (req, res, next) => {
 
 // PATCH /api/routines/:routineId
 routinesRouter.patch('/:routineId', async (req, res, next) => {
-    const { id } = req.params;
+    const id = req.params.routineId;
+    console.log(id);
     const { isPublic, name, goal  } = req.body;
 
     const updateFields = {};
@@ -64,20 +71,25 @@ routinesRouter.patch('/:routineId', async (req, res, next) => {
     }
 
     try {
-        const originalRoutine = await getRoutineById(id);
+        // const originalRoutine = await getRoutineById(id);
         
-        if (originalRoutine.creatorId.id === req.user.id) {
+        // if (originalRoutine.creatorId.id === req.user.id) {
         
-            const updatedRoutine = await updatedRoutine(id, updateFields);
+        //     const updatedRoutine = await updatedRoutine(id, updateFields);
         
-            res.send({ routine: updatedRoutine })
+        //     res.send({ routine: updatedRoutine })
+        const updatedRoutine = await updateRoutine({id, fields: updateFields});
+
+        console.log("Updated activity: " + updatedRoutine);
+
+        res.send(updatedRoutine);
         
-        } else {
-            next({
-                name: 'UnauthorizedUserError',
-                message: 'You cannot update a routine that is not yours'
-            })
-        }
+        // } else {
+        //     next({
+        //         name: 'UnauthorizedUserError',
+        //         message: 'You cannot update a routine that is not yours'
+        //     })
+        // }
     } catch ({ name, message }) {
         next({ name, message });
     }

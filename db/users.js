@@ -1,3 +1,4 @@
+
 /* eslint-disable no-unused-vars */
 const client = require("./client");
 
@@ -67,6 +68,7 @@ async function getUserByUsername(userName) {
     return user;
 
     } catch (error) {
+        console.log(error);
         throw error;
     }
 }

@@ -79,6 +79,8 @@ async function getPublicRoutinesByUser({ username }) {}
 
 async function getPublicRoutinesByActivity({ id }) {}
 
+// // // // //
+
 async function updateRoutine({ id, fields = {} }) {
   console.log("Starting updateRoutine");
 
