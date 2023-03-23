@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 const express = require('express');
 const activitiesRouter = express.Router();
@@ -6,22 +7,48 @@ const {
     createActivity,
     getAllActivities,
     getActivityById,
-    updateActivity
+    updateActivity,
+    getActivityByName
 } = require('../db');
 
-// health check
-activitiesRouter.use((req, res, next) => {
-    console.log("A request is being made to /activities");
-    next();
-});
+// GET /api/activities/name
+// activitiesRouter.get('/name', async (req, res, next) => {
+//     const { name } = req.body;
 
+//     if (!name) {
+//         next({
+//         name: "ActivityNameError",
+//         message: "Please supply valid activity name"
+//         });
+//     }
+//     try{
+//         const activitiesData = await getActivityByName(name);
+//         console.log("activitiesData : " + activitiesData);
+//         res.send(
+//             activitiesData
+//         );
+//     } catch(error) {
+//         console.log(error);
+//         next(error);
+//     }
+// });
+
+// NEEDS /routines !!!!!!!!!!!!!!!
 // GET /api/activities/:activityId/routines
-activitiesRouter.get('/:activityId', async (req, res) => {
+activitiesRouter.get('/:activityId', async (req, res, next) => {
     const activities = await getActivityById(req.params.activityId);
-
-    res.send(
-        activities
-    );
+    if(!req.params.activityId){
+        console.log(error);
+        next(error);
+    }
+    try{
+        res.send(
+            activities
+        );
+    } catch(error) {
+        console.log(error);
+        next(error);
+    }
 });
 
 // GET /api/activities
@@ -32,6 +59,7 @@ activitiesRouter.get('/', async (req, res) => {
         activitiesData
     );
 });
+
 
 // POST /api/activities
 activitiesRouter.post('/', async (req, res, next) => {
@@ -50,6 +78,7 @@ activitiesRouter.post('/', async (req, res, next) => {
     } 
 });
 
+// PATCH /api/activities/:activityId
 activitiesRouter.patch('/:activityId', async (req, res, next) => {
     const id = req.params.activityId;
     console.log(id);
@@ -67,11 +96,7 @@ activitiesRouter.patch('/:activityId', async (req, res, next) => {
         updateFields.description = description;
     }
 
-    // Good up until here
     try {
-        // Not used, saving for later
-        // const originalActivity = await getActivityById(id);
-        
         const updatedActivity = await updateActivity({id, fields: updateFields});
         console.log("Updated activity: " + updatedActivity);
         res.send(updatedActivity);
@@ -79,8 +104,6 @@ activitiesRouter.patch('/:activityId', async (req, res, next) => {
         next({ name, message });
     }
 });
-
-// PATCH /api/activities/:activityId
 
 module.exports = activitiesRouter;
 
