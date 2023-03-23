@@ -29,11 +29,19 @@ async function createUser({ username, password }) {
 // Not sure how to get this to 
 // "verify the password against the hashed password"
 async function getUser({ username, password }) {
-  //const user = await getUserByUserName(username);
-  console.log("You recently called getUserByUserName");
-  //console.log("Here's what was returned: " + user);
+  const user = getUserByUsername(username);
 
-  //const hashedPassword = user.password;
+  // if (!user) {
+  //   return null;
+  // }
+
+  // const isPasswordCorrect = verifyPassword(password, user.password);
+
+  // if (!isPasswordCorrect) {
+  //   return null;
+  // }
+
+  // return user;
 }
 
 async function getUserById(userId) {
