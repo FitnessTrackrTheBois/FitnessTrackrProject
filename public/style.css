@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Sahitya:wght@700&display=swap');
+
+* {
+    font-family: 'Sahitya', serif;
+    box-sizing: border-box;
+    height: auto;
+    text-decoration: none;
+    color: inherit;
+}
+body {
+    margin: 70px;
+    /* margin-top: 130px; */
+    padding-top: 50px;
+    background-color: #3fc0cd;
+    color:#cc481a;
+}
+
+/* #app{
+    
+} */
+
+/* Header */
+.Header {
+        font-size: 40px;
+        background-color: whitesmoke;
+        position: fixed;
+        display: flex;
+        justify-content: space-between;
+        padding-left: 35px;
+        padding-right: 35px;
+        align-items: center;
+        overflow: auto;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 120px;
+        border-bottom: 4px outset;
+        color: #cc481a;
+}
+
+/* Home Page */
+.Home {
+    height: 580px;
+    width: 1100px;
+}
+
+.HomeMain{
+    height: 560px;
+    display: flex;
+    flex-direction: column;
+    border-width: 5px;
+}
+.HomeHeader{
+    text-align: center;
+    width: 600px;
+    font-size: 20px;
+    padding: 10px;  
+}
+
+.HomeDisplaySection{
+    display: flex;
+    justify-content: space-around;
+    /* border: dotted white; */
+    border-width: 5px;
+}
+
+/* #myRoutinesTitle{
+    
+} */
+
+.myRoutinesSection{
+    height: 400px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto; 
+    border: inset;
+    border-width: 10px;
+}
+.myRoutines {
+    height: auto;
+    width: 400px;
+    background-color: whitesmoke;
+    border: solid black;
+    padding: 30px;
+}
+
+.myActivitiesSection {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto; 
+    border: inset;
+    border-width: 10px;
+}
+
+.myActivities {
+    height: auto;
+    width: 400px;
+    background-color: rgb(70 70 70);
+    border: solid black;
+    padding: 30px;
+};
+
+.activitiesSection{
+    height: 400px;
+}
+
+/* Profile Page */
+.Profile {
+    padding: 10px;
+    font-size: 30px;
+    /* border: dotted red; */
+    border-width: 5px;
+}
+
+.createForm{
+    background-color: whitesmoke;
+    border: inset;
+    border-width: 10px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.createTitle{
+    margin-bottom: 90px;
+    height: 50px;
+    border: dotted blue;
+}
+form {
+    padding: 30px;
+    font-size: 50px;
+    width: 500px;
+    height: auto;
+    
+}
+
+/* Post Page */
+.postPage{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* border: dotted blue; */
+}
+
+.PostsList{
+    margin-top: 20px;
+    height: auto;
+    width: 800px;
+    background-color: whitesmoke;
+    padding: 30px;
+    border: inset;
+    border-width: 10px;
+    text-align: center;
+    font-size: 30px;
+    /* display: flex; */
+    /* justify-content: center; */
+}
+
+Link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.NavLinks {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* View Post Detail Page */
+.viewPost{
+    font-size: 30px;
+}
+
+.editForm{
+    width: auto;
+    background-color: whitesmoke;
+    padding: 30px;
+    border: inset;
+    border-width: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.replyForm{
+    width: auto;
+    background-color: whitesmoke;
+    padding: 30px;
+    border: inset;
+    border-width: 10px;
+    display: flex;
+    flex-direction: column;
+}
