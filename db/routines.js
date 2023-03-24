@@ -48,44 +48,72 @@ async function getRoutinesWithoutActivities() {
   }
 }
 
-// // // // // 
 async function getAllRoutines() {
   // let exampleRoutine = 2;
   try{
+    console.log("Starting getAllRoutines");
     const { rows } = await client.query(`
-    SELECT routine.id, routine."creatorId", routine."isPublic", routine.name, routine.goal, routine_activity."activityId", routine_activity.count, routine_activity.duration
+    SELECT routine.id, routine."creatorId", routine."isPublic", routine.name, routine.goal, routine_activity."activityId", routine_activity.count, routine_activity.duration,
+    activity.name AS "activityName",
+    activity.description AS "activityDescription"
     FROM routines routine
-    JOIN routine_activities routine_activity ON routine.id = routine_activity."routineId";
+    JOIN routine_activities routine_activity ON routine.id = routine_activity."routineId"
+    JOIN activities activity ON routine_activity."activityId" = activity.id;
     `);
-    return rows;
+
+    const routinesData = rows.map((row) => ({
+        id: row.id,
+        creatorId: row.creatorId,
+        isPublic: row.isPublic,
+        name: row.name,
+        goal: row.goal,
+        activity: {
+          id: row.activityId,
+          name: row.activityName,
+          description: row.activityDescription,
+          count: row.count,
+          duration: row.duration,
+        },
+    }));
+    
+    console.log("finished getAllRoutines");
+    return routinesData;
+    // return rows;
   } catch (error) {
       console.log(error);
       throw error;
   }
-  // try{
-    // const { rows } = await client.query(`
-    // SELECT id, "creatorId", "isPublic", name, goal
-    // FROM routines;
-    // `);
-// Missing (array of activity objects): An array of activities associated with this routine 
-// Possible join table 
-  //   return rows;
-
-  // } catch (error) {
-  //     console.log(error);
-  //     throw error;
-  // }
 }
 
-async function getAllPublicRoutines() {}
+async function getAllPublicRoutines() {
+  try {
+    console.log("Starting getAllPublicRoutines");
+    const { rows } = await client.query(`
+      SELECT * FROM routines
+      WHERE "isPublic" = true;
+    `);
+    // const { rows } = await client.query(`
+    //   SELECT routine.id, routine."creatorId", routine."isPublic", routine.name, routine.goal, routine_activity."activityId", routine_activity.count, routine_activity.duration,
+    //   WHERE "isPublic" = true,
+    //   activity.name AS "activityName",
+    //   activity.description AS "activityDescription"
+    //   FROM routines routine
+    //   JOIN routine_activities routine_activity ON routine.id = routine_activity."routineId"
+    //   JOIN activities activity ON routine_activity."activityId" = activity.id;
+    // `);
+    console.log("finished getAllPublicRoutines");
+    return rows;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
 
 async function getAllRoutinesByUser({ username }) {}
 
 async function getPublicRoutinesByUser({ username }) {}
 
 async function getPublicRoutinesByActivity({ id }) {}
-
-// // // // //
 
 async function updateRoutine({ id, fields = {} }) {
   console.log("Starting updateRoutine");
@@ -131,7 +159,6 @@ async function destroyRoutine(id) {
       throw error;
   }
 }
-
 
 module.exports = {
   getRoutineById,
