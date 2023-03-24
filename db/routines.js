@@ -28,10 +28,7 @@ async function getRoutineById(id) {
         WHERE id = $1;
     `, [id]);
       console.log("finished getRoutineById");
-
-
       return routine;
-
   } catch (error) {
       console.log(error);
       throw error;
@@ -44,9 +41,7 @@ async function getRoutinesWithoutActivities() {
     SELECT id, "creatorId", "isPublic", name, goal
     FROM routines;
     `);
-
     return rows;
-
   } catch (error) {
       console.log(error);
       throw error;
@@ -54,8 +49,19 @@ async function getRoutinesWithoutActivities() {
 }
 
 // // // // // 
-
 async function getAllRoutines() {
+  // let exampleRoutine = 2;
+  try{
+    const { rows } = await client.query(`
+    SELECT routine.id, routine."creatorId", routine."isPublic", routine.name, routine.goal, routine_activity."activityId", routine_activity.count, routine_activity.duration
+    FROM routines routine
+    JOIN routine_activities routine_activity ON routine.id = routine_activity."routineId";
+    `);
+    return rows;
+  } catch (error) {
+      console.log(error);
+      throw error;
+  }
   // try{
     // const { rows } = await client.query(`
     // SELECT id, "creatorId", "isPublic", name, goal
