@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Sahitya:wght@700&display=swap');
-
 * {
     font-family: 'Sahitya', serif;
     box-sizing: border-box;
@@ -8,11 +7,22 @@
     color: inherit;
 }
 body {
-    margin: 70px;
-    /* margin-top: 130px; */
-    padding-top: 50px;
+    margin:0;
+    padding:0;
     background-color: #3fc0cd;
     color:#cc481a;
+}
+body ::-webkit-scrollbar{
+    width:0.25rem;
+}
+body ::-webkit-scrollbar-track{
+    background:#3fc0cd
+}
+body ::-webkit-scrollbar-thumb{
+    background:#cc481a
+}
+main {
+    margin-left:5rem;
 }
 
 /* #app{
@@ -164,10 +174,27 @@ Link {
     text-decoration: none;
     color: inherit;
 }
-
+/*NavBar*/
 .NavLinks {
     text-decoration: none;
     color: inherit;
+    width:5rem;
+    position:fixed;
+    background-color:#cc481a;
+    color:#3fc0cd;
+    font-size:24px;
+}
+.NavLinkBar{
+    list-style: none;
+    padding:0;
+    margin:0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height:100%;
+}
+.NavLinkItem{
+    width:100%;
 }
 
 /* View Post Detail Page */
