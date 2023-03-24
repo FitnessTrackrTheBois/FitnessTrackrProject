@@ -2,7 +2,7 @@ import {useState} from 'react';
 const fetchData=async ()=>{
     try{
         const accountToken = localStorage.getItem('accountToken');
-        const response = await fetch('http://locahost:3000:/', {
+        const response = await fetch('http://localhost:3000:/', {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${accountToken}`
@@ -52,4 +52,5 @@ const ProductForm=()=>{
         </div>
     )
 }
-//COMPLETE
+export default ProductForm
+//INCOMPLETE

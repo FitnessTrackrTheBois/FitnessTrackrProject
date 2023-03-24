@@ -131,7 +131,19 @@ usersRouter.post('/me', async (req, res, next) => {
     //     next(error);
     // }
 });
-
+usersRouter.post('/searchid', async (req, res, next) => {
+    try {
+      const { id } = req.body;
+      const user = await getUserById({ id });
+  
+      if (user) {
+        res.send(user);
+      } else {
+        throw { name: 'UserNotFoundError', message: 'User not found' };
+      }
+    } catch(error) {
+      next(error);
+    }
+  });
 // GET /api/users/:username/routines
-
 module.exports = usersRouter;

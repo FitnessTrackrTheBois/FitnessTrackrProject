@@ -64,8 +64,22 @@ async function getUser({ username, password }) {
   // return user;
 }
 
-async function getUserById(userId) {
-  
+async function getUserById({id}) {
+  try{
+    console.log("Getting user by Id")
+    const {rows} = await client.query(`
+    SELECT id, username, password
+    FROM users
+    WHERE id=$1`,
+    [id]);
+    if(!id){
+      return null
+    }
+    console.log ("Finished getting user by Id");
+    return rows
+  }catch(error){
+    throw error;
+  }
 }
 
 async function getUserByUsername(userName) {
