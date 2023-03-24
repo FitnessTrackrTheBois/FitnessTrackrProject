@@ -7,6 +7,7 @@ const { requireUser } = require('./utils');
 
 const { 
     createRoutine,
+    getAllRoutines,
     getRoutinesWithoutActivities,
     getRoutineById,
     updateRoutine,
@@ -15,7 +16,8 @@ const {
 
 // GET /api/routines
 routinesRouter.get('/', async (req, res) => {
-    const routinesData = await getRoutinesWithoutActivities();
+    // const routinesData = await getRoutinesWithoutActivities();
+    const routinesData = await getAllRoutines();
 
     res.send({
         routinesData
