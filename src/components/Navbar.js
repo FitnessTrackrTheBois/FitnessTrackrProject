@@ -6,13 +6,11 @@ const Navbar = (props) => {
 
     return(
         <div className="NavLinks">
-            <ul className="NavLinkBar">
-            <li className="NavLinkItem">{ loggedIn ? <div></div> : <Link  to="/Register"> Register </Link> }</li>
-            <li className="NavLinkItem">{ loggedIn ? <div></div> : <Link  to="/Login"> Login </Link> }</li>
-            <li className="NavLinkItem"><Link  to="/"> Home </Link></li>
-            <li className="NavLinkItem">{ !loggedIn ? <div></div> : <Link  to="/Profile"> Profile </Link> }</li>
-            <li className="NavLinkItem">{ !loggedIn ? <div></div> : <Link  to="/Logout"> Logout </Link> }</li>
-            </ul>
+            { loggedIn ? <div></div> : <Link  to="/Register"> Register </Link> }
+            { loggedIn ? <div></div> : <Link  to="/Login"> Login </Link> }
+            <Link  to="/"> Home </Link>
+            { !loggedIn ? <div></div> : <Link  to="/Profile"> Profile </Link> }
+            { !loggedIn ? <div></div> : <Link  to="/Logout"> Logout </Link> }
         </div>
 
     )

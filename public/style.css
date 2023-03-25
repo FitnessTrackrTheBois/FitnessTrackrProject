@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Sahitya:wght@700&display=swap');
+
 * {
     font-family: 'Sahitya', serif;
     box-sizing: border-box;
@@ -7,24 +8,23 @@
     color: inherit;
 }
 body {
-    margin:0;
-    padding:0;
-    background-color: #3fc0cd;
+    margin: 70px;
+    /* margin-top: 130px; */
+    padding-top: 50px;
+    background-color: #e7e7e7;
     color:#cc481a;
 }
-body ::-webkit-scrollbar{
-    width:0.25rem;
-}
-body ::-webkit-scrollbar-track{
-    background:#3fc0cd
-}
-body ::-webkit-scrollbar-thumb{
-    background:#cc481a
-}
-main {
-    margin-left:5rem;
-}
-
+body::-webkit-scrollbar {
+    width: 0.25rem;
+  }
+  
+  body::-webkit-scrollbar-track {
+    background: white;
+  }
+  
+  body::-webkit-scrollbar-thumb {
+    background: black;
+  }
 /* #app{
     
 } */
@@ -32,7 +32,7 @@ main {
 /* Header */
 .Header {
         font-size: 40px;
-        background-color: whitesmoke;
+        background-color: #cc481a;
         position: fixed;
         display: flex;
         justify-content: space-between;
@@ -45,7 +45,7 @@ main {
         left: 0;
         height: 120px;
         border-bottom: 4px outset;
-        color: #cc481a;
+        color:black;
 }
 
 /* Home Page */
@@ -85,11 +85,22 @@ main {
     flex-direction: column;
     overflow: auto; 
     border: inset;
-    border-width: 10px;
+    border-width: 5px;
 }
+.myRouteinesSection::-webkit-scrollbar {
+    width: 0.25rem;
+  }
+  
+.myRoutinesSection::-webkit-scrollbar-track {
+    background: #1e1e24;
+  }
+  
+.myRoutinesSection::-webkit-scrollbar-thumb {
+    background: #6649b8;
+  }
 .myRoutines {
     height: auto;
-    width: 400px;
+    width: auto;
     background-color: whitesmoke;
     border: solid black;
     padding: 30px;
@@ -107,7 +118,7 @@ main {
 
 .myActivities {
     height: auto;
-    width: 400px;
+    width: auto;
     background-color: rgb(70 70 70);
     border: solid black;
     padding: 30px;
@@ -174,27 +185,23 @@ Link {
     text-decoration: none;
     color: inherit;
 }
-/*NavBar*/
+
 .NavLinks {
     text-decoration: none;
     color: inherit;
-    width:5rem;
-    position:fixed;
-    background-color:#cc481a;
-    color:#3fc0cd;
-    font-size:24px;
-}
-.NavLinkBar{
-    list-style: none;
-    padding:0;
-    margin:0;
-    display: flex;
+    font-size:16px;
+    display:flex;
+    align-items:center;
+    border:solid black 3px;
+    padding:10px;
     flex-direction: column;
-    align-items: center;
-    height:100%;
+    
 }
-.NavLinkItem{
-    width:100%;
+.container{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px;
 }
 
 /* View Post Detail Page */
