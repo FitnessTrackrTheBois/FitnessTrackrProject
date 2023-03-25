@@ -109,7 +109,24 @@ async function getAllPublicRoutines() {
   }
 }
 
-async function getAllRoutinesByUser({ username }) {}
+// Still in progress.
+async function getAllRoutinesByUser({ username }) {
+  console.log("starting getAllRoutinesByUser");
+
+  console.log("You passed in: " + username);
+  // try {
+  //   console.log("Starting getRoutineById");
+  // const { rows: [ routine ]  } = await client.query(`
+  //     SELECT * FROM routines
+  //     WHERE id = $1;
+  // `, [id]);
+  //   console.log("finished getRoutineById");
+  //   return routine;
+  // } catch (error) {
+  //     console.log(error);
+  //     throw error;
+  // }
+}
 
 async function getPublicRoutinesByUser({ username }) {}
 

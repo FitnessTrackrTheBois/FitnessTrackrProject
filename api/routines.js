@@ -8,10 +8,11 @@ const { requireUser } = require('./utils');
 const { 
     createRoutine,
     getAllRoutines,
+    getAllRoutinesByUser,
     getAllPublicRoutines,
     getRoutinesWithoutActivities,
     getRoutineById,
-    updateR0outine,
+    updateRoutine,
     destroyRoutine
 } = require('../db');
 
@@ -20,11 +21,36 @@ const {
 routinesRouter.get('/', async (req, res) => {
     // const routinesData = await getRoutinesWithoutActivities();
     // const routinesData = await getAllRoutines();
-    const routinesData = await getAllPublicRoutines();
+    // const routinesData = await getAllPublicRoutines();
+    let 
+    const routinesData = await getAllRoutinesByUser("")
+    
 
     res.send(
         routinesData
     );
+});
+
+// THIS IS MEANT FOR TESTING getRoutineById
+// GET /api/routines/:routineId/
+routinesRouter.get('/:routineId', async (req, res) => {
+    // const routinesData = await getRoutinesWithoutActivities();
+    // const routinesData = await getAllRoutines();
+    // const routinesData = await getAllPublicRoutines();
+    const routines = await getRoutineById(req.params.routineId);
+    
+    if(!req.params.routineId){
+        console.log(error);
+        next(error);
+    }
+    try{
+        res.send(
+            routines
+        );
+    } catch(error) {
+        console.log(error);
+        next(error);
+    }
 });
 
 // POST /api/routines
@@ -55,6 +81,7 @@ routinesRouter.post('/', async (req, res, next) => {
     } 
 });
 
+// Successfully updates a routine.
 // PATCH /api/routines/:routineId
 routinesRouter.patch('/:routineId', async (req, res, next) => {
     const id = req.params.routineId;
