@@ -11,10 +11,20 @@ body {
     margin: 70px;
     /* margin-top: 130px; */
     padding-top: 50px;
-    background-color: #3fc0cd;
+    background-color: #e7e7e7;
     color:#cc481a;
 }
-
+body::-webkit-scrollbar {
+    width: 0.25rem;
+  }
+  
+  body::-webkit-scrollbar-track {
+    background: white;
+  }
+  
+  body::-webkit-scrollbar-thumb {
+    background: black;
+  }
 /* #app{
     
 } */
@@ -22,7 +32,7 @@ body {
 /* Header */
 .Header {
         font-size: 40px;
-        background-color: whitesmoke;
+        background-color: #cc481a;
         position: fixed;
         display: flex;
         justify-content: space-between;
@@ -35,7 +45,7 @@ body {
         left: 0;
         height: 120px;
         border-bottom: 4px outset;
-        color: #cc481a;
+        color:black;
 }
 
 /* Home Page */
@@ -62,6 +72,7 @@ body {
     justify-content: space-around;
     /* border: dotted white; */
     border-width: 5px;
+    padding-top:5px;
 }
 
 /* #myRoutinesTitle{
@@ -75,11 +86,22 @@ body {
     flex-direction: column;
     overflow: auto; 
     border: inset;
-    border-width: 10px;
+    border-width: 5px;
 }
+.myRouteinesSection::-webkit-scrollbar {
+    width: 0.25rem;
+  }
+  
+.myRoutinesSection::-webkit-scrollbar-track {
+    background: #1e1e24;
+  }
+  
+.myRoutinesSection::-webkit-scrollbar-thumb {
+    background: #6649b8;
+  }
 .myRoutines {
     height: auto;
-    width: 400px;
+    width: auto;
     background-color: whitesmoke;
     border: solid black;
     padding: 30px;
@@ -97,7 +119,7 @@ body {
 
 .myActivities {
     height: auto;
-    width: 400px;
+    width: auto;
     background-color: rgb(70 70 70);
     border: solid black;
     padding: 30px;
@@ -168,6 +190,19 @@ Link {
 .NavLinks {
     text-decoration: none;
     color: inherit;
+    font-size:16px;
+    display:flex;
+    align-items:center;
+    border:solid black 3px;
+    padding:10px;
+    flex-direction: column;
+    
+}
+.container{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px;
 }
 
 /* View Post Detail Page */

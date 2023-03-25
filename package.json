@@ -8,7 +8,7 @@
     "seed": "node ./db/seed.js",
     "start:dev": "nodemon server.js",
     "start": "node server.js",
-    "start:react": "react-scripts start",
+    "start:react": "PORT=3006 react-scripts start",
     "test": "jest --runInBand",
     "test:watch": "jest --runInBand --watchAll"
   },
@@ -25,10 +25,6 @@
   ],
   "author": "Preston Wallace",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/wallacepreston/fitnesstrackr/issues"
-  },
-  "homepage": "https://github.com/wallacepreston/fitnesstrackr#readme",
   "devDependencies": {
     "eslint": "^8.2.0",
     "eslint-plugin-jest": "^25.2.4",

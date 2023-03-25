@@ -22,9 +22,6 @@ const HomePage = (props) =>{
                     {
                         props.loggedIn ? (
                 <div className='HomeMain'>
-                    <div className='HomeHeader'>
-                        <h2>Welcome to Fitness Tracker, </h2>
-                    </div>
                     <div className='HomeDisplaySection'>
                         <h3 id="myRoutinesTitle">Routines: </h3>
                         <div className='myRoutinesSection'>  
