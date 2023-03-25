@@ -88,8 +88,8 @@ body::-webkit-scrollbar {
     border: inset;
     border-width: 5px;
 }
-.myRouteinesSection::-webkit-scrollbar {
-    width: 0.25rem;
+.myRoutinesSection::-webkit-scrollbar {
+    width: 1rem;
   }
   
 .myRoutinesSection::-webkit-scrollbar-track {
@@ -97,7 +97,7 @@ body::-webkit-scrollbar {
   }
   
 .myRoutinesSection::-webkit-scrollbar-thumb {
-    background: #6649b8;
+    background: white;
   }
 .myRoutines {
     height: auto;
