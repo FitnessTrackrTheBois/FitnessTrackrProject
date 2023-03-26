@@ -19,7 +19,9 @@ const Login = () => {
                 alert("Password is too short. 8 Character Minimum")
                 return;
             };
-            const response = await fetch(`https://fitnesstrac-kr.herokuapp.com/api/users/login`, {
+            // const response = await fetch(`https://fitnesstrac-kr.herokuapp.com/api/users/login`, {
+            const response = await fetch(`http://localhost:3000/api/users/login`, {
+            
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -11,10 +11,9 @@ const jwt = require("jsonwebtoken");
 
 const app = express();
 
-const { 
-    createUser,
-    createActivity
-} = require("./db/index")
+app.use(cors({
+    origin: 'http://localhost:3001'
+}));
 
 // Setup your Middleware and API Router here
 

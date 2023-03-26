@@ -46,7 +46,8 @@ const Profile = (props) =>{
         const tokenKey = localStorage.getItem("token");
 
         try {
-            const response = await fetch(`https://fitnesstrac-kr.herokuapp.com/api/routines`, {
+            // const response = await fetch(`https://fitnesstrac-kr.herokuapp.com/api/routines`, {
+            const response = await fetch(`http://localhost:3000/api/routines`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,7 +87,9 @@ const Profile = (props) =>{
         const tokenKey = localStorage.getItem("token");
 
         try {
-            const response = await fetch(`https://fitnesstrac-kr.herokuapp.com/api/activities`, {
+            // const response = await fetch(`https://fitnesstrac-kr.herokuapp.com/api/activities`, {
+            const response = await fetch(`http://localhost:3000/api/activities`, {
+            
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
