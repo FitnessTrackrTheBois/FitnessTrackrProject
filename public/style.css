@@ -78,7 +78,9 @@ body::-webkit-scrollbar {
     font-size: 20px;
     padding: 10px;  
 }
-
+.Title:Hover{opacity: .85}
+.routinesLink:hover{opacity:.75}
+.activitiesLink:hover{opacity:.75}
 .HomeDisplaySection{
     display: flex;
     justify-content: space-around;
