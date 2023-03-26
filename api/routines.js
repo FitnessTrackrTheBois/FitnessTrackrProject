@@ -9,6 +9,8 @@ const {
     createRoutine,
     getAllRoutines,
     getAllRoutinesByUser,
+    getPublicRoutinesByActivity,
+    getPublicRoutinesByUser,
     getAllPublicRoutines,
     getRoutinesWithoutActivities,
     getRoutineById,
@@ -22,10 +24,9 @@ routinesRouter.get('/', async (req, res) => {
     const routinesData = await getRoutinesWithoutActivities();
     // const routinesData = await getAllRoutines();
     // const routinesData = await getAllPublicRoutines();
-    // let 
-    // const routinesData = await getAllRoutinesByUser("")
+    // const routinesData = await getAllRoutinesByUser({ username: "glamgal"});
+    const routinesData = await getPublicRoutinesByUser({ username: "glamgal"});
     
-
     res.send(
         routinesData
     );
