@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const client = require("./client");
 
+// Adds an activity to a routine.
 async function addActivityToRoutine({routineId, activityId, count, duration}){
   try {
       console.log("starting addActivityToRoutine");
@@ -21,7 +22,7 @@ async function addActivityToRoutine({routineId, activityId, count, duration}){
   }
 }
 
-//Work in progress
+// Returns an activity object when given an id
 async function getRoutineActivityById(id) {
   try {
     console.log("Starting getRoutineActivityById");
@@ -40,6 +41,7 @@ async function getRoutineActivityById(id) {
   }
 }
 
+// Gets the activities from a routine when given a routine id.
 async function getRoutineActivitiesByRoutine({ id }) {
   try {
     console.log("Starting getRoutineActivitiesByRoutine");
@@ -50,9 +52,8 @@ async function getRoutineActivitiesByRoutine({ id }) {
       FROM routine_activities
       JOIN activities ON routine_activities."activityId" = activities.id
       WHERE routine_activities."routineId" = $1;
-      `, [id]);
+    `, [id]);
   
-
     console.log("Finished getRoutineActivitiesByRoutine")
 
     return activities;
@@ -89,7 +90,7 @@ async function updateRoutineActivity({ id, fields = {} }) {
 }
 
 // Based off of destroyRoutine
-// If it isn't necessary return the deleted object,
+// If it isn't necessary to return the deleted object,
 // just remove "RETURNING *" from the SQL.
 async function destroyRoutineActivity(id) {
   console.log("Starting destroyRoutineActivityID");
@@ -112,6 +113,7 @@ async function destroyRoutineActivity(id) {
   }
 }
 
+// Apparently, this function isn't necesssary..
 async function canEditRoutineActivity(routineActivityId, userId) {}
 
 module.exports = {
