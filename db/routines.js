@@ -304,10 +304,11 @@ async function updateRoutine({ id, fields = {} }) {
   }
 }
 
+//Works! 
 async function destroyRoutine(id) {
   console.log("Starting destroyRoutineID");
   try{
-      const deleteRoutine = getRoutineById(id)
+      const routine = await getRoutineById(id)
 
       await client.query(`
           DELETE FROM routines
@@ -316,7 +317,7 @@ async function destroyRoutine(id) {
 
       console.log("Finishing destroyRoutineID");
 
-      return deleteRoutine;
+      return routine;
 
   } catch(error){
       console.error(error);

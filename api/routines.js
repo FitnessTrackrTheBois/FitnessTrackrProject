@@ -56,6 +56,9 @@ routinesRouter.get('/:routineId', async (req, res) => {
     }
 });
 
+// Creates a routine
+// This works, but right now it hard-codes the creatorId to Albert; 
+// It doesn't work on ANY "given" creatorId...
 // POST /api/routines
 routinesRouter.post('/', async (req, res, next) => {
     const { isPublic, name, goal } = req.body;
@@ -133,7 +136,7 @@ routinesRouter.patch('/:routineId', async (req, res, next) => {
 // DELETE /api/routines/:routineId
 routinesRouter.delete('/:routineId', async (req, res, next) => {
     try{
-        const deleteRoutineData = await destroyRoutine(req.params.id);
+        const deleteRoutineData = await destroyRoutine(req.params.routineId);
         res.send(deleteRoutineData)
 
     } catch(error){
