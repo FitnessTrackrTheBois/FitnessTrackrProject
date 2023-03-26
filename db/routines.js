@@ -1,6 +1,8 @@
 /* eslint-disable no-useless-catch */
 /* eslint-disable no-unused-vars */
+const e = require("express");
 const client = require("./client");
+const { getUserByUsername } = require("./users");
 
 async function createRoutine({ creatorId, isPublic, name, goal }) {
   try {
@@ -110,27 +112,171 @@ async function getAllPublicRoutines() {
 }
 
 // Still in progress.
-async function getAllRoutinesByUser({ username }) {
-  console.log("starting getAllRoutinesByUser");
+async function getAllRoutinesByUser( {username} ) {
+  console.log(`Starting getAllRoutinesByUser for user ${username}`);
 
-  console.log("You passed in: " + username);
-  // try {
-  //   console.log("Starting getRoutineById");
-  // const { rows: [ routine ]  } = await client.query(`
-  //     SELECT * FROM routines
-  //     WHERE id = $1;
-  // `, [id]);
-  //   console.log("finished getRoutineById");
-  //   return routine;
-  // } catch (error) {
-  //     console.log(error);
-  //     throw error;
-  // }
+  try {
+    const user = await getUserByUsername(username);
+
+    if (!user) {
+      console.log(`User ${username} not found`);
+      return null;
+    }
+
+    console.log(`User ${username} found with id ${user.id}`);
+
+    const { rows: routines } = await client.query(`
+      SELECT routines.id, routines.name, routines.goal, activities.name 
+      AS activity_name, activities.description
+      AS activity_description, routine_activities.count, routine_activities.duration
+      FROM routines
+      JOIN routine_activities ON routines.id = routine_activities."routineId"
+      JOIN activities ON routine_activities."activityId" = activities.id
+      WHERE routines."creatorId" = $1
+    `, [user.id]);
+
+    // .reduce walks through element-by-element, 
+    const routinesData = routines.reduce((acc, row) => {
+      const existingRoutine = acc.find(routine => routine.id === row.id);
+      if (existingRoutine) {
+        existingRoutine.activity.push({
+          name: row.activity_name,
+          description: row.activity_description,
+          count: row.count,
+          duration: row.duration,
+        });
+      } else {
+        acc.push({
+          id: row.id,
+          name: row.name,
+          goal: row.goal,
+          activity: [{
+            name: row.activity_name,
+            description: row.activity_description,
+            count: row.count,
+            duration: row.duration,
+          }],
+        });
+      }
+      return acc;
+    }, []);
+
+    return routinesData;
+    
+  } catch (error) {
+    console.log(`Error while getting routines for user ${username}: ${error.message}`);
+    throw error;
+  }
 }
 
-async function getPublicRoutinesByUser({ username }) {}
+// Very similar to getAllRoutines, we just change the SQL a little to select the isPublic
+// column and add the condition to the WHERE clause.
+async function getPublicRoutinesByUser({ username }) {
+  console.log(`Starting getAllRoutinesByUser for user ${username}`);
 
-async function getPublicRoutinesByActivity({ id }) {}
+  try {
+    const user = await getUserByUsername(username);
+
+    if (!user) {
+      console.log(`User ${username} not found`);
+      return null;
+    }
+
+    console.log(`User ${username} found with id ${user.id}`);
+
+    const { rows: routines } = await client.query(`
+      SELECT routines.id, routines.name, routines.goal, routines."isPublic", activities.name 
+      AS activity_name, activities.description
+      AS activity_description, routine_activities.count, routine_activities.duration
+      FROM routines
+      JOIN routine_activities ON routines.id = routine_activities."routineId"
+      JOIN activities ON routine_activities."activityId" = activities.id
+      WHERE routines."creatorId" = $1 AND routines."isPublic" = true
+    `, [user.id]);
+
+    // .reduce walks through element-by-element, 
+    const routinesData = routines.reduce((acc, row) => {
+      const existingRoutine = acc.find(routine => routine.id === row.id);
+      if (existingRoutine) {
+        existingRoutine.activity.push({
+          name: row.activity_name,
+          description: row.activity_description,
+          count: row.count,
+          duration: row.duration,
+        });
+      } else {
+        acc.push({
+          id: row.id,
+          name: row.name,
+          goal: row.goal,
+          activity: [{
+            name: row.activity_name,
+            description: row.activity_description,
+            count: row.count,
+            duration: row.duration,
+          }],
+        });
+      }
+      return acc;
+    }, []);
+
+    return routinesData;
+    
+  } catch (error) {
+    console.log(`Error while getting routines for user ${username}: ${error.message}`);
+    throw error;
+  }
+}
+
+// Work in progress.
+async function getPublicRoutinesByActivity({ id }) {
+  console.log(`Starting getAllRoutinesByActivity for ID: ${username}`);
+
+  try {
+
+    const { rows: routines } = await client.query(`
+      SELECT routines.id, routines.name, routines.goal, routines."isPublic", activities.name 
+      AS activity_name, activities.description
+      AS activity_description, routine_activities.count, routine_activities.duration
+      FROM routines
+      JOIN routine_activities ON routines.id = routine_activities."routineId"
+      JOIN activities ON routine_activities."activityId" = activities.id
+      WHERE routine_activities."activityId" = 
+    `, [user.id]);
+
+    // .reduce walks through element-by-element, 
+    const routinesData = routines.reduce((acc, row) => {
+      const existingRoutine = acc.find(routine => routine.id === row.id);
+      if (existingRoutine) {
+        existingRoutine.activity.push({
+          name: row.activity_name,
+          description: row.activity_description,
+          count: row.count,
+          duration: row.duration,
+        });
+      } else {
+        acc.push({
+          id: row.id,
+          name: row.name,
+          goal: row.goal,
+          activity: [{
+            name: row.activity_name,
+            description: row.activity_description,
+            count: row.count,
+            duration: row.duration,
+          }],
+        });
+      }
+      return acc;
+    }, []);
+
+    return routinesData;
+    
+  } catch (error) {
+    console.log(`Error while calling getPublicRoutinesByActivity`);
+    throw error;
+  }
+}
 
 async function updateRoutine({ id, fields = {} }) {
   console.log("Starting updateRoutine");
