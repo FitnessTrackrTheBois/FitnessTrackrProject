@@ -228,12 +228,12 @@ async function getPublicRoutinesByUser({ username }) {
   }
 }
 
-// Work in progress.
+// Works for now, not thoroughly tested yet.
+// This uses a "subquery" to select routin ids associated with a specified id.
 async function getPublicRoutinesByActivity({ id }) {
-  console.log(`Starting getAllRoutinesByActivity for ID: ${username}`);
+  console.log(`Starting getAllRoutinesByActivity for ID: ${id}`);
 
   try {
-
     const { rows: routines } = await client.query(`
       SELECT routines.id, routines.name, routines.goal, routines."isPublic", activities.name 
       AS activity_name, activities.description
@@ -241,8 +241,9 @@ async function getPublicRoutinesByActivity({ id }) {
       FROM routines
       JOIN routine_activities ON routines.id = routine_activities."routineId"
       JOIN activities ON routine_activities."activityId" = activities.id
-      WHERE routine_activities."activityId" = 
-    `, [user.id]);
+      WHERE routines."isPublic" = true AND routines.id IN
+        (SELECT "routineId" FROM routine_activities WHERE "activityId" = $1)
+    `, [id]);
 
     // .reduce walks through element-by-element, 
     const routinesData = routines.reduce((acc, row) => {
