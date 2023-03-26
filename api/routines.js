@@ -21,10 +21,9 @@ const {
 // GET /api/routines
 // This guy is used a lot for testing various "getRoutines" methods for now.
 routinesRouter.get('/', async (req, res) => {
-    // const routinesData = await getRoutinesWithoutActivities();
+    const routinesData = await getRoutinesWithoutActivities();
     // const routinesData = await getAllRoutines();
     // const routinesData = await getAllPublicRoutines();
-    
     // const routinesData = await getAllRoutinesByUser({ username: "glamgal"});
     const routinesData = await getPublicRoutinesByUser({ username: "glamgal"});
     

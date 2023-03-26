@@ -11,7 +11,9 @@ const App =() => {
 
     async function fetchRoutines(){        
         try{
-            const response = await fetch("https://fitnesstrac-kr.herokuapp.com/api/routines");
+            // const response = await fetch("https://fitnesstrac-kr.herokuapp.com/api/routines");
+            const response = await fetch("http://localhost:3000/api/routines");
+
             const routineData = await response.json();
             setRoutines(routineData);
         } catch (error){
@@ -21,7 +23,8 @@ const App =() => {
 
     async function fetchActivities(){        
         try{
-            const response = await fetch("https://fitnesstrac-kr.herokuapp.com/api/activities");
+            // const response = await fetch("https://fitnesstrac-kr.herokuapp.com/api/activities");
+            const response = await fetch("http://localhost:3000/api/activities");
             const activitiesData = await response.json();
             setActivities(activitiesData);
         } catch (error){
