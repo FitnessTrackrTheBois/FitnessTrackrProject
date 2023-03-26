@@ -4,6 +4,7 @@ const e = require("express");
 const client = require("./client");
 const { getUserByUsername } = require("./users");
 
+//works
 async function createRoutine({ creatorId, isPublic, name, goal }) {
   try {
       console.log("starting createRoutine");
@@ -22,6 +23,7 @@ async function createRoutine({ creatorId, isPublic, name, goal }) {
   }
 }
 
+//works
 async function getRoutineById(id) {
   try {
       console.log("Starting getRoutineById");
@@ -37,6 +39,7 @@ async function getRoutineById(id) {
   }
 }
 
+//works
 async function getRoutinesWithoutActivities() {
   try{
     const { rows } = await client.query(`
@@ -50,6 +53,7 @@ async function getRoutinesWithoutActivities() {
   }
 }
 
+//works
 async function getAllRoutines() {
   // let exampleRoutine = 2;
   try{
@@ -87,6 +91,7 @@ async function getAllRoutines() {
   }
 }
 
+//works
 async function getAllPublicRoutines() {
   try {
     console.log("Starting getAllPublicRoutines");
@@ -279,6 +284,7 @@ async function getPublicRoutinesByActivity({ id }) {
   }
 }
 
+// Should work??
 async function updateRoutine({ id, fields = {} }) {
   console.log("Starting updateRoutine");
 
@@ -307,21 +313,31 @@ async function updateRoutine({ id, fields = {} }) {
 //Works! 
 async function destroyRoutine(id) {
   console.log("Starting destroyRoutineID");
-  try{
-      const routine = await getRoutineById(id)
+  try {
+    await client.query('BEGIN');
 
-      await client.query(`
-          DELETE FROM routines
-          WHERE id = $1;
-      `, [id])
+    // delete the routine activities associated with this routine
+    await client.query(`
+      DELETE FROM routine_activities
+      WHERE "routineId" = $1;
+    `, [id]);
 
-      console.log("Finishing destroyRoutineID");
+    // delete the routine itself
+    const deleteRoutine = await client.query(`
+      DELETE FROM routines
+      WHERE id = $1
+      RETURNING *;
+    `, [id]);
 
-      return routine;
+    await client.query('COMMIT');
 
-  } catch(error){
-      console.error(error);
-      throw error;
+    console.log("Finishing destroyRoutineID");
+
+    return deleteRoutine.rows[0];
+  } catch(error) {
+    await client.query('ROLLBACK');
+    console.error(error);
+    throw error;
   }
 }
 

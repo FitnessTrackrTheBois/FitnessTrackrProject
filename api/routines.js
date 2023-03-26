@@ -40,6 +40,7 @@ routinesRouter.get('/:routineId', async (req, res) => {
     // const routinesData = await getRoutinesWithoutActivities();
     // const routinesData = await getAllRoutines();
     // const routinesData = await getAllPublicRoutines();
+    
     const routines = await getRoutineById(req.params.routineId);
     
     if(!req.params.routineId){

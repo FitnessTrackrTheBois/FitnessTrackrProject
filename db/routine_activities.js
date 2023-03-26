@@ -21,13 +21,96 @@ async function addActivityToRoutine({routineId, activityId, count, duration}){
   }
 }
 
-async function getRoutineActivityById(id) {}
+//Work in progress
+async function getRoutineActivityById(id) {
+  try {
+    console.log("Starting getRoutineActivityById");
+  const { rows: [ routine_activity ]  } = await client.query(`
+      SELECT * FROM routine_activities
+      WHERE id=$1;
+  `, [id]);
+    console.log("finished getRoutineActivityById");
 
-async function getRoutineActivitiesByRoutine({ id }) {}
+    console.log(routine_activity);
+    return routine_activity;
 
-async function updateRoutineActivity({ id, ...fields }) {}
+  } catch (error) {
+      console.log(error);
+      throw error;
+  }
+}
 
-async function destroyRoutineActivity(id) {}
+async function getRoutineActivitiesByRoutine({ id }) {
+  try {
+    console.log("Starting getRoutineActivitiesByRoutine");
+
+    const { rows : activities } = await client.query(`
+      SELECT activities.id, activities.name, activities.description,
+      routine_activities.count, routine_activities.duration
+      FROM routine_activities
+      JOIN activities ON routine_activities."activityId" = activities.id
+      WHERE routine_activities."routineId" = $1;
+      `, [id]);
+  
+
+    console.log("Finished getRoutineActivitiesByRoutine")
+
+    return activities;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+//Based off of updateRoutine from db/routines.js
+async function updateRoutineActivity({ id, fields = {} }) {
+  console.log("Starting updateRoutineActivity");
+
+  const setString = Object.keys(fields).map(
+      (key, index) => `"${ key }"=$${ index + 1 }`
+  ).join(', ');
+
+  try {
+      if(setString.length > 0){ 
+          await client.query(`
+              UPDATE routine_activities
+              SET ${ setString }
+              WHERE id=${ id }
+              RETURNING *;
+          `, Object.values(fields));
+      }
+        console.log("finished updateRoutineActivities");
+      return await getRoutineActivityById(id);
+
+  } catch (error) {
+      console.log(error);
+      throw error;
+  }
+}
+
+// Based off of destroyRoutine
+// If it isn't necessary return the deleted object,
+// just remove "RETURNING *" from the SQL.
+async function destroyRoutineActivity(id) {
+  console.log("Starting destroyRoutineActivityID");
+  try {
+
+    // delete the routine activities associated with this routine
+    const { rows: [deletedRoutineActivity] } = await client.query(`
+      DELETE FROM routine_activities
+      WHERE id = $1
+      RETURNING *;
+    `, [id]);
+
+
+    console.log("Finishing destroyRoutineActivityID");
+
+    return deletedRoutineActivity;
+  } catch(error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 async function canEditRoutineActivity(routineActivityId, userId) {}
 
