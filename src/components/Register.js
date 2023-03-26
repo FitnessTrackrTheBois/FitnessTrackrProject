@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-const Registration = () => {
+const Register = () => {
   const [newUser, setNewUser] = useState("");
   const [newPass, setNewPass] = useState(""); 
 
@@ -22,7 +22,6 @@ const Registration = () => {
 
       // const response = await fetch('http://fitnesstrac-kr.herokuapp.com/api/users/register', {
       const response = await fetch('http://localhost:3000/api/users/register', {
-      
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +35,7 @@ const Registration = () => {
       })
 
       const transData = await response.json();
-      // console.log(translation);
+      console.log(transData);
 
       if (!transData.success) {
         alert("Account Creation Unsuccessful");
@@ -45,8 +44,8 @@ const Registration = () => {
           localStorage.setItem("token", tokenKey);
           alert("New Account was successfully created.");
 //reset form 
-          setNewUser("");
-          setNewPass("");
+          // setNewUser("");
+          // setNewPass("");
           nav("/")
       }
     } catch (error) {
@@ -76,4 +75,4 @@ const Registration = () => {
   )
 }
 
-export default Registration;
+export default Register;

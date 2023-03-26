@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 
 const HomePage = (props) =>{
 
-    const{routines, activities, setLoggedIn} = props;
+    const{routines, fetchRoutines, activities, fetchActivities, setLoggedIn} = props;
 
 // Auth Check
     useEffect(()=> {
         if (localStorage.getItem("token")){
             setLoggedIn(true);
+            fetchRoutines();
+            fetchActivities();
         } else {
             props.setLoggedIn(false);
             console.log("No Token Exists");
