@@ -11,6 +11,8 @@ const jwt = require("jsonwebtoken");
 
 const app = express();
 
+const bcrypt = require("bcrypt");
+
 app.use(cors({
     origin: 'http://localhost:3001'
 }));

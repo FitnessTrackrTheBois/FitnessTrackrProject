@@ -36,7 +36,7 @@ const Registration = () => {
       })
 
       const transData = await response.json();
-      // console.log(translation);
+      console.log(transData);
 
       if (!transData.success) {
         alert("Account Creation Unsuccessful");

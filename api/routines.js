@@ -25,7 +25,7 @@ routinesRouter.get('/', async (req, res) => {
     // const routinesData = await getAllRoutines();
     // const routinesData = await getAllPublicRoutines();
     // const routinesData = await getAllRoutinesByUser({ username: "glamgal"});
-    const routinesData = await getPublicRoutinesByUser({ username: "glamgal"});
+    // const routinesData = await getPublicRoutinesByUser({ username: "glamgal"});
     
     res.send(
         routinesData

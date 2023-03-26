@@ -1,16 +1,19 @@
 
 /* eslint-disable no-unused-vars */
 const client = require("./client");
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
 
 // database functions
 
 // user functions
 async function createUser({ username, password }) {
   try {
-      console.log("starting createUser");
-      const saltCount=await bcrypt.genSalt(8)
-      const hashPassword = await bcrypt.hash(password, saltCount);
+    console.log("starting createUser");
+    let saltRounds = 10;
+    let saltCount = await bcrypt.genSalt(saltRounds);
+    
+    let hashPassword = await bcrypt.hash(password, saltCount);
+    
     const { rows: [ user ] } = await client.query(`
         INSERT INTO users(username, password)
         VALUES ($1, $2)
@@ -33,35 +36,26 @@ async function createUser({ username, password }) {
 // "verify the password against the hashed password"
 async function getUser({ username, password }) {
   try{
-    const {rows} = await client.query(`
-    SELECT id, username, password
-    FROM users
-    WHERE username =$1;`,[username]);
+    const {rows: [ user ]} = await client.query(`
+      SELECT id, username, password
+      FROM users
+      WHERE username = $1;
+    `,[username]);
     if (!user){
       return null
     }
-    const user=rows[0];
-    const hashedPassword=user.password
-    const validity=await bcrypt.compare (password, hashedPassword);
-    if(!validity){
-      throw error;
-    }
-    return user
+
+  const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+  if (!isPasswordCorrect) {
+    return null;
+  }
+
+  return user;
+
   }catch(error){
     throw error;
   }
-  
-  // if (!user) {
-  //   return null;
-  // }
-
-  // const isPasswordCorrect = verifyPassword(password, user.password);
-
-  // if (!isPasswordCorrect) {
-  //   return null;
-  // }
-
-  // return user;
 }
 
 async function getUserById({id}) {
@@ -88,7 +82,7 @@ async function getUserByUsername(userName) {
     const { rows: [ user ] } = await client.query(`
         SELECT id, username, password
         FROM users
-        WHERE username=$1
+        WHERE username = $1;
     `, [ userName ]);
 
     if (!user) {
