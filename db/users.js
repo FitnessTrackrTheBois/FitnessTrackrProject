@@ -10,9 +10,9 @@ async function createUser({ username, password }) {
   try {
     console.log("starting createUser");
     let saltRounds = 10;
-    let saltCount = await bcrypt.genSalt(saltRounds);
+    // let saltCount = await bcrypt.genSalt(saltRounds);
     
-    let hashPassword = await bcrypt.hash(password, saltCount);
+    let hashPassword = await bcrypt.hash(password, saltRounds);
     
     const { rows: [ user ] } = await client.query(`
         INSERT INTO users(username, password)
@@ -42,13 +42,15 @@ async function getUser({ username, password }) {
       WHERE username = $1;
     `,[username]);
     if (!user){
-      return null
+      throw error;
+      // return null
     }
 
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
   if (!isPasswordCorrect) {
-    return null;
+    throw error;
+    // return null;
   }
 
   return user;
@@ -79,17 +81,16 @@ async function getUserById({id}) {
 async function getUserByUsername(userName) {
   try {
     console.log("Getting a user by their username")
-    const { rows: [ user ] } = await client.query(`
+    const { rows: [ user ]  } = await client.query(`
         SELECT id, username, password
         FROM users
         WHERE username = $1;
     `, [ userName ]);
 
     if (!user) {
-        return null
+      console.log("User not found");
+      return null;
     }
-
-    // user.posts = await getPostsByUser(userId);
 
     console.log("Finished getting a user by their username");
     return user;
@@ -104,5 +105,5 @@ module.exports = {
   createUser,
   getUser,
   getUserById,
-  getUserByUsername,
+  getUserByUsername
 }

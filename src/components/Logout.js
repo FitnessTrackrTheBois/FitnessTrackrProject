@@ -2,23 +2,20 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-const Logout = (props) => {
-
+const Logout = ({ setLoggedIn }) => {
     const nav = useNavigate();
 
-    useEffect(()=> {
-                if (props.setLoggedIn(true)){
-                    localStorage.removeItem("token");
-                    nav("/");
-                } else {
-                    props.setLoggedIn(false);
-                    console.log("No Token Exists");
-                };
-    }, [])
+    useEffect(() => {
+        if (localStorage.getItem("token") !== null) {
+            localStorage.removeItem("token");
+            setLoggedIn(false);
+            nav("/");
+        } else {
+            console.log("No Token Exists");
+        }
+    }, [setLoggedIn, nav]);
 
-    return(
-        <div></div>
-    )
-}
+    return <div></div>;
+};
 
-export default Logout; 
+export default Logout;

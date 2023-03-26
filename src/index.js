@@ -45,8 +45,10 @@ const App =() => {
                 <Route path ="/" element={ <HomePage 
                     routines = { routines }
                     setRoutines = { setRoutines }
+                    fetchRoutines = { fetchRoutines }
                     activities = { activities }
                     setActivities = { setActivities }
+                    fetchActivities = { fetchActivities }
                     loggedIn = { loggedIn }
                     setLoggedIn = { setLoggedIn }
                 /> }/>

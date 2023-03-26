@@ -47,57 +47,20 @@ const {
 //     }
 // });
 
-// health check
-usersRouter.use((req, res, next) => {
-    if (req.user) {
-        console.log("User is set:", req.user);
-    }
-    next();
-});
+// // health check
+// usersRouter.use((req, res, next) => {
+//     if (req.user) {
+//         console.log("User is set:", req.user);
+//     }
+//     next();
+// });
 
 // POST /api/users/register
-usersRouter.post('/register', async (req, res, next) => {
-    try{
-        console.log();
-        const { username, password } = req.body;
-        if (username && password && password.length >= 5) {
-                console.log(password);
-            let saltRounds = 10;
-            const saltCount = await bcrypt.genSalt(saltRounds);
-                console.log(saltCount);
-            const hashPassword = await bcrypt.hash(password, saltCount);
-                console.log(hashPassword);
-
-            const userReg = await createUser({
-                username: username,
-                password: hashPassword
-            });
-                console.log(userReg);
-            const token = jwt.sign({ 
-                id: userReg.id, 
-                username: username
-            }, process.env.JWT_SECRET, {
-                expiresIn: '1w'
-            });
-
-            res.send({
-                message: "Thanks for for signing up",
-                token: token
-            });
-        }
-        console.log(token);
-    } catch ({ name, message }) {
-        next({ name, message })
-    } 
-});
-
-// POST /api/users/login
 usersRouter.post('/login', async (req, res, next) => {
-
     const { username, password } = req.body;
 
     if (!username || !password) {
-        next({
+        return next({
             name: "MissingCredentialsError",
             message: "Please supply both a username and password"
         });
@@ -105,30 +68,41 @@ usersRouter.post('/login', async (req, res, next) => {
 
     try {
         const user = await getUserByUsername(username);
-    
-        const hashedPassword = user.password;
-        const validity = await bcrypt.compare(password, hashedPassword);
-    
-        if(!validity){
-            throw error;
-        };
+
+        // if (!user || !(await bcrypt.compare(password, user.password))) {
+        //     return res.status(401).json({
+        //         message: 'Incorrect username or password'
+        //     });
+        // } else {
 
         if (user && user.password == password) {
             // create token & return to user
-            const token = jwt.sign(user, process.env.JWT_SECRET);
-            res.send({ message: "you're logged in!" , token: `${ token }`});
-            console.log(token);
+            
+            const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+        
+            res.send({ 
+                user: {
+                    id: user.id,
+                    username: user.username
+                },
+                message: 'Login successful',
+                token: token
+            });
+            
         } else {
             next({ 
                 name: 'IncorrectCredentialsError', 
                 message: 'Username or password is incorrect'
             });
         }
+
+        // }
     } catch(error) {
         console.log(error);
-        next(error);
+        return next(error);
     }
 });
+
 // GET /api/users/me
 usersRouter.post('/me', async (req, res, next) => {
     // const { username, password } = req.body;
