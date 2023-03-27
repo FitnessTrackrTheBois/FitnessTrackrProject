@@ -11,7 +11,7 @@ body {
     margin: 70px;
     /* margin-top: 130px; */
     padding-top: 50px;
-    background-color: #e7e7e7;  
+    background-color:rgb(153, 186, 204);  
     color:black;
     animation: fadeInAnimation ease 3s;
     animation-iteration-count: 1;
@@ -44,7 +44,7 @@ body::-webkit-scrollbar {
 /* Header */
 .Header {
         font-size: 40px;
-        background-color: gold;
+        background-color: rgb(45, 99, 158);
         position: fixed;
         display: flex;
         justify-content: space-between;
@@ -57,26 +57,15 @@ body::-webkit-scrollbar {
         left: 0;
         height: 120px;
         border-bottom: 6px outset;
-        color:black;
+        color:white;
 }
 
 /* Home Page */
 .Home {
-    height: 580px;
+    height: auto;
     width: 1100px;
-    animation: fadeInAnimation ease 3s;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
 }
  
-@keyframes fadeInAnimation {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-     }
-}
 .HomeMain{
     height: 560px;
     display: flex;
@@ -89,7 +78,9 @@ body::-webkit-scrollbar {
     font-size: 20px;
     padding: 10px;  
 }
-
+.Title:Hover{opacity: .85}
+.routinesLink:hover{opacity:.75}
+.activitiesLink:hover{opacity:.75}
 .HomeDisplaySection{
     display: flex;
     justify-content: space-around;
@@ -236,7 +227,7 @@ Link {
     font-size:16px;
     display:flex;
     align-items:center;
-    border:solid black 3px;
+    border:solid white 3px;
     padding:10px;
     flex-direction: column;
     

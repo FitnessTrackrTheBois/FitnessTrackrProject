@@ -32,7 +32,7 @@ const HomePage = (props) =>{
                                 routines.length ? routines.map((oneRoutine)=>{
                                     return(
                                         <div key={oneRoutine.id} className='myRoutines'>
-                                            <div >
+                                            <div className="routinesLink">
                                                 Name: <Link to={`/${routines.id}`}> { oneRoutine.name }</Link>
                                                 
                                             </div>
@@ -54,7 +54,7 @@ const HomePage = (props) =>{
                                         <section key={oneActivity.id} className='myActivities'>
                                             <div>Name: { oneActivity.name }</div>
                                             <div>Description: { oneActivity.description }</div>
-                                            <div>
+                                            <div className="activitiesLink">
                                                 Link: 
                                                 <Link to={`/${oneActivity.id}`}>{ oneActivity.name } </Link>
                                             </div>
