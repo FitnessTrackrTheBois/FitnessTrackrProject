@@ -13,49 +13,44 @@ const {
     getUserById
 } = require('../db');
 
-
-// usersRouter.use(async (req, res, next) => {
-//     console.log("Beginning token verification")
-//     const prefix = 'Bearer ';
-//     const auth = req.header('Authorization');
-
-//     if (!auth) { 
-//         console.log("!!!! !auth !!!!")
-//         next();
-//     } else if (auth.startsWith(prefix)) {
-//         console.log("Generating token")
-//         const token = auth.slice(prefix.length);
-
-//         try {
-//             console.log("Verifying token")
-//             const { id } = jwt.verify(token, process.env.JWT_SECRET);
-
-//             if (id) {
-//                 console.log("id: " + id)
-//                 req.user = await getUserById(id);
-//                 console.log("req.user: " + req.user);
-//                 next();
-//             }
-//         } catch ({ name, message }) {
-//             next({ name, message });
-//         }
-//     } else {
-//         next({
-//             name: 'AuthorizationHeaderError',
-//             message: `Authorization token must start with ${ prefix }`
-//         });
-//     }
-// });
-
-// // health check
-// usersRouter.use((req, res, next) => {
-//     if (req.user) {
-//         console.log("User is set:", req.user);
-//     }
-//     next();
-// });
-
 // POST /api/users/register
+usersRouter.post('/register', async (req, res, next) => {
+    const { username, password } = req.body;
+
+    try {
+        const _user = await getUserByUsername(username);
+        if (_user) {
+            res.send({
+                name: 'UserExistsError',
+                message: 'A user by that username already exists'
+            });
+        // } else if(_user.password.length < 8) {
+        //     res.send({
+        //         name: "PasswordTooShort",
+        //         message: "Password must be a minimum of 8 characters."
+        //     });
+        } else {
+            const user = await createUser({
+                username,
+                password
+            });
+                if (user.id) {
+                    const token = jwt.sign({ 
+                        id: user.id, 
+                        username
+                    }, process.env.JWT_SECRET, {
+                        expiresIn: '1w'
+                    }); res.send({ 
+                        message: "thank you for signing up",
+                        token 
+                    })};
+            };
+        } catch (error) {
+            throw(error);
+        };
+});
+
+// POST /api/users/login
 usersRouter.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
 
@@ -69,17 +64,11 @@ usersRouter.post('/login', async (req, res, next) => {
     try {
         const user = await getUserByUsername(username);
 
-        // if (!user || !(await bcrypt.compare(password, user.password))) {
-        //     return res.status(401).json({
-        //         message: 'Incorrect username or password'
-        //     });
-        // } else {
-
-        if (user && user.password == password) {
-            // create token & return to user
+        const comparePass = await bcrypt.compare(password, user.password); 
+        if (user && comparePass) {
             
-            const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
-        
+            const token = jwt.sign({ id: user.id, username }, process.env.JWT_SECRET, { expiresIn: "1w" });
+
             res.send({ 
                 user: {
                     id: user.id,
@@ -95,8 +84,6 @@ usersRouter.post('/login', async (req, res, next) => {
                 message: 'Username or password is incorrect'
             });
         }
-
-        // }
     } catch(error) {
         console.log(error);
         return next(error);

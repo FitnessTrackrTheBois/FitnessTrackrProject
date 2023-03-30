@@ -41,6 +41,7 @@ const Register = () => {
         alert("Account Creation Unsuccessful");
       } else {
           const tokenKey = transData.data.token;
+          console.log(tokenKey);
           localStorage.setItem("token", tokenKey);
           alert("New Account was successfully created.");
 //reset form 

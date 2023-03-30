@@ -1,17 +1,11 @@
-
-/* eslint-disable no-unused-vars */
 const client = require("./client");
 const bcrypt = require("bcrypt");
-
-// database functions
 
 // user functions
 async function createUser({ username, password }) {
   try {
     console.log("starting createUser");
     let saltRounds = 10;
-    // let saltCount = await bcrypt.genSalt(saltRounds);
-    
     let hashPassword = await bcrypt.hash(password, saltRounds);
     
     const { rows: [ user ] } = await client.query(`
@@ -19,7 +13,6 @@ async function createUser({ username, password }) {
         VALUES ($1, $2)
         ON CONFLICT (username) DO NOTHING 
         RETURNING *;
-        
     `, [username, hashPassword]);
 
       console.log("finished createUser");
@@ -78,19 +71,19 @@ async function getUserById({id}) {
   }
 }
 
-async function getUserByUsername(userName) {
+async function getUserByUsername(username) {
   try {
     console.log("Getting a user by their username")
     const { rows: [ user ]  } = await client.query(`
-        SELECT id, username, password
+        SELECT *
         FROM users
         WHERE username = $1;
-    `, [ userName ]);
+    `, [ username ]);
 
-    if (!user) {
-      console.log("User not found");
-      return null;
-    }
+    // if (!user) {
+    //   console.log("User not found");
+    //   return null;
+    // }
 
     console.log("Finished getting a user by their username");
     return user;
