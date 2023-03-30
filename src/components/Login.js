@@ -26,15 +26,15 @@ const Login = () => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    user: {
+                    // user: {
                         username: loginUser,
                         password: loginPass
-                    }
+                    // }
                 })
             });
             const transData = await response.json();
 
-            if (!transData.success){
+            if (!transData){
                 alert("Login was unsuccessful. Please try again. ");
             } else {
                 const tokenKey = transData.token;
