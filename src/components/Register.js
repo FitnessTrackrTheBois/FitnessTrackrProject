@@ -27,20 +27,20 @@ const Register = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user: {
+          // user: {
             username: newUser,
             password: newPass
-          }
+          // }
         })
       })
 
       const transData = await response.json();
       console.log(transData);
 
-      if (!transData.success) {
+      if (!transData) {
         alert("Account Creation Unsuccessful");
       } else {
-          const tokenKey = transData.data.token;
+          const tokenKey = transData.token;
           console.log(tokenKey);
           localStorage.setItem("token", tokenKey);
           alert("New Account was successfully created.");
