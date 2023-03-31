@@ -1,6 +1,6 @@
-/* eslint-disable */
-
 import {useState} from 'react';
+// const DATABASE_URL = 'http://localhost:3000/api/';
+// `${DATABASE_URL}/routines`
 
 
 const AddActivity = () => {

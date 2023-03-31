@@ -2,6 +2,9 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
+// const DATABASE_URL = 'http://localhost:3000/api/';
+const DATABASE_URL = 'https://fitnesstracker-optw.onrender.com';
+
 const Register = () => {
   const [newUser, setNewUser] = useState("");
   const [newPass, setNewPass] = useState(""); 
@@ -20,8 +23,7 @@ const Register = () => {
         return;
       }
 
-      // const response = await fetch('http://fitnesstrac-kr.herokuapp.com/api/users/register', {
-      const response = await fetch('http://localhost:3000/api/users/register', {
+      const response = await fetch(`${DATABASE_URL}/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

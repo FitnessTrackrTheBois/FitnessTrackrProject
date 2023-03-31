@@ -2,6 +2,9 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
+// const DATABASE_URL = 'http://localhost:3000/api/';
+const DATABASE_URL = 'https://fitnesstracker-optw.onrender.com';
+
 const Login = () => {
     const [loginUser, setLoginUser] = useState("");
     const [loginPass, setLoginPass] = useState("");
@@ -19,8 +22,7 @@ const Login = () => {
                 alert("Password is too short. 8 Character Minimum")
                 return;
             };
-            // const response = await fetch(`https://fitnesstrac-kr.herokuapp.com/api/users/login`, {
-            const response = await fetch(`http://localhost:3000/api/users/login`, {
+            const response = await fetch(`${DATABASE_URL}/users/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

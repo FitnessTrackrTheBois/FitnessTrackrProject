@@ -1,6 +1,9 @@
 import {useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 
+// const DATABASE_URL = 'http://localhost:3000/api/';
+const DATABASE_URL = 'https://fitnesstracker-optw.onrender.com';
+
 
 const Profile = (props) =>{
     const { setLoggedIn, routines, setRoutines, activities, setActivities } = props;
@@ -46,8 +49,7 @@ const Profile = (props) =>{
         const tokenKey = localStorage.getItem("token");
 
         try {
-            // const response = await fetch(`https://fitnesstrac-kr.herokuapp.com/api/routines`, {
-            const response = await fetch(`http://localhost:3000/api/routines`, {
+            const response = await fetch(`${DATABASE_URL}/routines`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,8 +89,7 @@ const Profile = (props) =>{
         const tokenKey = localStorage.getItem("token");
 
         try {
-            // const response = await fetch(`https://fitnesstrac-kr.herokuapp.com/api/activities`, {
-            const response = await fetch(`http://localhost:3000/api/activities`, {
+            const response = await fetch(`${DATABASE_URL}/activities`, {
             
                 method: "POST",
                 headers: {

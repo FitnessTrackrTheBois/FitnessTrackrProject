@@ -4,6 +4,9 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 import { HomePage, Register, Login, Profile, AddActivity, Header, Logout} from "./components";
 
+// const DATABASE_URL = 'http://localhost:3000/api/';
+const DATABASE_URL = 'https://fitnesstracker-optw.onrender.com';
+
 const App =() => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [routines, setRoutines] = useState([]);
@@ -11,8 +14,7 @@ const App =() => {
 
     async function fetchRoutines(){        
         try{
-            // const response = await fetch("https://fitnesstrac-kr.herokuapp.com/api/routines");
-            const response = await fetch("http://localhost:3000/api/routines");
+            const response = await fetch(`${DATABASE_URL}/routines`);
 
             const routineData = await response.json();
             setRoutines(routineData);
@@ -23,8 +25,7 @@ const App =() => {
 
     async function fetchActivities(){        
         try{
-            // const response = await fetch("https://fitnesstrac-kr.herokuapp.com/api/activities");
-            const response = await fetch("http://localhost:3000/api/activities");
+            const response = await fetch(`${DATABASE_URL}/activities`);
             const activitiesData = await response.json();
             setActivities(activitiesData);
         } catch (error){
