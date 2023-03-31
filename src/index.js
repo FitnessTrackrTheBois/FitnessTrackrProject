@@ -4,8 +4,8 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 import { HomePage, Register, Login, Profile, AddActivity, Header, Logout} from "./components";
 
-// const DATABASE_URL = 'http://localhost:3000/api/';
-const DATABASE_URL = 'https://fitnesstracker-optw.onrender.com/api';
+const DATABASE_URL = 'http://localhost:3000/api/';
+// const DATABASE_URL = 'https://fitnesstracker-optw.onrender.com/api';
 
 const App =() => {
     const [loggedIn, setLoggedIn] = useState(false);
