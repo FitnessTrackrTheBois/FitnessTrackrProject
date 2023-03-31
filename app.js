@@ -13,9 +13,9 @@ const app = express();
 
 const bcrypt = require("bcrypt");
 
-app.use(cors({
-    origin: 'http://localhost:3002'
-}));
+// app.use(cors({
+//     origin: 'http://localhost:3002'
+// }));
 
 // Setup your Middleware and API Router here
 
