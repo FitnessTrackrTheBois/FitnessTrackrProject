@@ -62,10 +62,6 @@
       "last 1 safari version"
     ]
   },
-  "bugs": {
-    "url": "https://github.com/wallacepreston/fitnesstrackr/issues"
-  },
-  "homepage": "https://github.com/wallacepreston/fitnesstrackr#readme",
   "directories": {
     "test": "tests"
   }
