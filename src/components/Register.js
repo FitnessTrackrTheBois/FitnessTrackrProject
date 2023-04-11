@@ -2,8 +2,8 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-// const DATABASE_URL = 'http://localhost:3000/api/';
-const DATABASE_URL = 'https://fitnesstracker-optw.onrender.com/api';
+const DATABASE_URL = 'http://localhost:3000/api/';
+// const DATABASE_URL = 'https://fitnesstracker-optw.onrender.com/api';
 
 const Register = () => {
   const [newUser, setNewUser] = useState("");
